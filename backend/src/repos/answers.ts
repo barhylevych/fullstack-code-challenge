@@ -14,9 +14,25 @@ export async function getAll(): Promise<ANSWER.IAnswer[]> {
   }));
 }
 
+export async function get(id: ANSWER.IAnswer['id']): Promise<ANSWER.IAnswer> {
+  const { rows: [row] } = await database.query<ANSWER.IAnswer & Record<string, unknown>>(
+      'SELECT * FROM answers WHERE id = $1;', [id],
+  );
+
+  if (!row?.id) throw new Error('NOT_FOUND');
+
+  return ANSWER.Answer.new({
+    ...row,
+    createdAt: row.created_at as Date,
+    editedAt: row.edited_at as Date,
+    userId: row.user_id as string,
+    questionId: row.question_id as string,
+  });
+}
+
 export async function getAllByUserId(userId: ANSWER.IAnswer['userId']): Promise<ANSWER.IAnswer[]> {
   const { rows } = await database.query<ANSWER.IAnswer & Record<string, unknown>>(
-    'SELECT * FROM answers where user_id = $1;', [userId],
+    'SELECT * FROM answers where user_id::varchar = $1::varchar;', [userId],
   );
 
   return rows.map((row) => ANSWER.Answer.new({
@@ -60,7 +76,7 @@ export async function update(answer: Pick<ANSWER.IAnswer, 'message' | 'id'>): Pr
 
 export async function drop(answer: Pick<ANSWER.IAnswer, 'id'>): Promise<void> {
   await database.query<ANSWER.IAnswer & Record<string, unknown>>(
-    'DELETE FROM answers where id = $1;',
+    'DELETE FROM answers where id::varchar = $1::varchar;',
     [answer.id],
   );
 }

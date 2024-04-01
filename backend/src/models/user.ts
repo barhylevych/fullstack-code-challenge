@@ -1,7 +1,7 @@
 import zod from 'zod';
 
 export interface IUser {
-    id: number;
+    id: string;
     name: string;
     createdAt: Date;
 }
@@ -9,7 +9,7 @@ export interface IUser {
 export class User {
   static new(user: Partial<IUser>): IUser {
     return {
-      id: (user.id ?? -1),
+      id: (user.id ?? ''),
       name: (user.name ?? ''),
       createdAt: (user.createdAt ? new Date(user.createdAt) : new Date()),
     };

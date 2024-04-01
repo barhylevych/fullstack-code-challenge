@@ -13,6 +13,21 @@ export async function getAll(): Promise<IQuestion[]> {
   }));
 }
 
+export async function get(id: IQuestion['id']): Promise<IQuestion> {
+  const { rows: [row] } = await database.query<IQuestion & Record<string, unknown>>(
+    'SELECT * FROM questions WHERE id = $1;', [id],
+  );
+
+  if (!row?.id) throw new Error('NOT_FOUND');
+
+  return Question.new({
+    ...row,
+    createdAt: row.created_at as Date,
+    editedAt: row.edited_at as Date,
+    userId: row.user_id as string,
+  });
+}
+
 export async function create(question: Pick<IQuestion, 'description' | 'title' | 'userId'>): Promise<IQuestion> {
   const { rows: [row] } = await database.query<IQuestion & Record<string, unknown>>(
     'INSERT INTO questions(title, description, user_ID) VALUES ($1, $2, $3) RETURNING *;',
@@ -43,7 +58,7 @@ export async function update(question: Pick<IQuestion, 'description' | 'title' |
 
 export async function drop(question: Pick<IQuestion, 'id'>): Promise<void> {
   await database.query<IQuestion & Record<string, unknown>>(
-    'DELETE FROM questions where id = $1;',
+    'DELETE FROM questions where id::varchar = $1::varchar;',
     [question.id],
   );
 }

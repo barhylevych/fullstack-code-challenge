@@ -1,7 +1,7 @@
 import zod from 'zod';
 
 export interface IQuestion {
-    id: number;
+    id: string;
     title: string;
     description: string;
     userId: string;
@@ -12,7 +12,7 @@ export interface IQuestion {
 export class Question {
   static new(question: Partial<IQuestion>): IQuestion {
     return {
-      id: (question.id ?? -1),
+      id: (question.id ?? ''),
       title: (question.title ?? ''),
       description: (question.description ?? ''),
       userId: question.userId ?? '',

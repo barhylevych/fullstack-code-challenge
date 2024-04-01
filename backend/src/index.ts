@@ -3,18 +3,20 @@
  */
 import path from 'path';
 import helmet from 'helmet';
+import cors from 'cors';
 import 'express-async-errors';
 import express, { Request, Response, NextFunction } from 'express';
 
 import Controllers from './controllers';
 import * as CONSTANTS from './constants';
 import { RouteError } from './other/classes';
-import * as process from 'process';
 
 const app = express();
 
 // Basic middleware
 app.use(helmet());
+app.use(cors())
+app.use(express.json());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 

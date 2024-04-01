@@ -12,6 +12,17 @@ answersRouter.get('/', async (_, res) => {
   return res.status(Http_status_codes.OK).json(answers);
 });
 
+answersRouter.get('/', async (req, res) => {
+  const validationOutput = zod.object({
+    id: zod.string().uuid(),
+  }).safeParse(req.params);
+
+  if (!validationOutput.success) throw new RouteError(Http_status_codes.BAD_REQUEST, 'NOT_VALID_PARAMS');
+
+  const answers = await SERVICES.ANSWERS.get(validationOutput.data.id);
+  return res.status(Http_status_codes.OK).json(answers);
+});
+
 answersRouter.get('/user/:userId', async (req, res) => {
   const {success} = zod.object({
     userId: zod.string().uuid(),
@@ -48,14 +59,14 @@ answersRouter.put('/', async (req, res) => {
   return res.status(Http_status_codes.OK).json(updatedQuestion);
 });
 
-answersRouter.delete('/', async (req, res) => {
+answersRouter.delete('/:id', async (req, res) => {
   const {success} = zod.object({
     id: zod.string().uuid(),
-  }).safeParse(req.body);
+  }).safeParse(req.params);
 
-  if (!success) throw new RouteError(Http_status_codes.BAD_REQUEST, 'NOT_VALID_BODY');
+  if (!success) throw new RouteError(Http_status_codes.BAD_REQUEST, 'NOT_VALID_PARAMS');
 
-  await SERVICES.ANSWERS.drop(req.body as ANSWER.IAnswer);
+  await SERVICES.ANSWERS.drop(req.params as ANSWER.IAnswer);
   return res.status(Http_status_codes.OK).json({ success: true });
 });
 

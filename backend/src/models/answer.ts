@@ -1,7 +1,7 @@
 import zod from 'zod';
 
 export interface IAnswer {
-    id: number;
+    id: string;
     message: string;
     userId: string;
     questionId: string;
@@ -12,7 +12,7 @@ export interface IAnswer {
 export class Answer {
   static new(question: Partial<IAnswer>): IAnswer {
     return {
-      id: (question.id ?? -1),
+      id: (question.id ?? ''),
       message: (question.message ?? ''),
       userId: question.userId ?? '',
       questionId: question.questionId ?? '',

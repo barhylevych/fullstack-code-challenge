@@ -5,6 +5,10 @@ export async function getAll(): Promise<ANSWER.IAnswer[]> {
   return REPOS.ANSWERS.getAll();
 }
 
+export async function get(id: ANSWER.IAnswer['id']): Promise<ANSWER.IAnswer> {
+  return REPOS.ANSWERS.get(id);
+}
+
 export async function getAllByUserId(id: ANSWER.IAnswer['userId']): Promise<ANSWER.IAnswer[]> {
   return REPOS.ANSWERS.getAllByUserId(id);
 }

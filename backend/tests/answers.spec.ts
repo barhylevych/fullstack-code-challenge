@@ -126,11 +126,7 @@ describe('Answers', () => {
     it('Success', async () => {
       const { body: [answer] } = await agent.get('/api/answers');
 
-      const data = {
-        id: answer?.id,
-      };
-
-      const answerResponse = await agent.delete('/api/answers').send(data);
+      const answerResponse = await agent.delete('/api/answers/' + answer?.id)
 
       expect(answerResponse.status).toBe(HTTPS_STATUS_CODES.OK);
       expect(answerResponse.body).toMatchObject({ success: true });
