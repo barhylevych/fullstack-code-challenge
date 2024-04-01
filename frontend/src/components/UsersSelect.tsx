@@ -6,7 +6,6 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import {FC, useContext, useEffect} from "react";
-import {UsersStore} from "@/lib/list.stores.ts";
 import {observer} from "mobx-react-lite";
 import {UserContext} from "@/lib/user.context.ts";
 
