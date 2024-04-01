@@ -1,0 +1,58 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "scripts": {
+    "test": "dotenv -c -e .env.test jest --verbose --coverage --forceExit --maxWorkers=1",
+    "dev": "dotenv -c -e .env nodemon ./src/index.ts",
+    "start": "dotenv -c -e .env ts-node ./src/index.ts",
+    "db:migrate": "dotenv -c -e .env postgrator"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "ext": "ts, html",
+    "ignore": [
+      "src/public"
+    ]
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "transform": {
+      "node_modules/variables/.+\\.(j|t)sx?$": "ts-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!variables/.*)"
+    ]
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-async-errors": "^3.1.1",
+    "helmet": "^7.1.0",
+    "jest": "^29.7.0",
+    "pg": "^8.11.4",
+    "supertest": "^6.3.4",
+    "ts-jest": "^29.1.2",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.12.2",
+    "@types/pg": "^8.11.4",
+    "@types/supertest": "^6.0.2",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
+    "dotenv-cli": "^6.0.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-node": "^11.1.0",
+    "nodemon": "^3.1.0",
+    "postgrator-cli": "^6.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3"
+  }
+}
