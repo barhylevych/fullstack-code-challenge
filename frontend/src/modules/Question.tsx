@@ -99,7 +99,7 @@ const Questions: FC = () => {
 
                 <div className="flex items-start flex-col px-4">
                     <label
-                        htmlFor="User"
+                        htmlFor="userId"
                         className="font-light text-xl">
                         User
                     </label>
