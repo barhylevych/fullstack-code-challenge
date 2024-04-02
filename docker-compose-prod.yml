@@ -23,21 +23,19 @@ services:
       dockerfile: ./backend/Prod.Dockerfile
     image: backend
     ports:
-      - "80:80"
+      - "8080:8080"
     restart: always
     environment:
       NODE_ENV: development
-      PORT: 80
+      PORT: 8080
       PGSQL_USER: $POSTGRES_USER
       PGSQL_PASSWORD: $POSTGRES_PASSWORD
       PGSQL_PORT: $POSTGRES_PORT
       PGSQL_HOST: "db"
       PGSQL_DATABASE: $POSTGRES_DB
-    volumes:
-      - ./backend/:/app
     depends_on:
       db:
-        condition: service_healthy
+        condition: service_completed_successfully
       migration:
         condition: service_started
     networks:
@@ -49,10 +47,12 @@ services:
     build:
       context: ./backend
       dockerfile: ./backend/Prod.Dockerfile
+    image: db-migrations
     command:
       ["npm", "run", "db:migrate"]
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - backend_network
     environment:
@@ -61,6 +61,15 @@ services:
       PGSQL_PORT: $POSTGRES_PORT
       PGSQL_HOST: "db"
       PGSQL_DATABASE: $POSTGRES_DB
+
+  front:
+    build:
+      context: ./frontend
+      dockerfile: ./Dev.Dockerfile
+    image: frontend
+    ports:
+      - "80:80"
+    restart: always
 
 networks:
   backend_network:

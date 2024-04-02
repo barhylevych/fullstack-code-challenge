@@ -58,7 +58,7 @@ const Questions: FC = () => {
         setIsSaving(false)
     }
 
-    return <main className="w-full h-full p-5">
+    return <main className="w-full h-full p-5 bg-[#252525]">
         <header className="pb-10">
             <Navigation/>
         </header>
@@ -99,9 +99,9 @@ const Questions: FC = () => {
 
                 <div className="flex items-start flex-col px-4">
                     <label
-                        htmlFor="description"
+                        htmlFor="User"
                         className="font-light text-xl">
-                        Description
+                        User
                     </label>
                     <UsersSelect
                         name="userId"

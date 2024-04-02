@@ -55,13 +55,27 @@ const Answer: FC = () => {
         setIsSaving(false)
     }
 
-    return <main className="w-full h-full p-5">
+    return <main className="w-full h-full p-5 bg-[#252525]">
         <header className="pb-10">
             <Navigation/>
         </header>
-        <div className="px-4">
-            <h1>Question: {QuestionStore.data?.title}</h1>
-            <h2>Question description: {QuestionStore.data?.description}</h2>
+        <div className="pb-2">
+            <div className="flex items-start flex-col px-4">
+                <label
+                    htmlFor="title"
+                    className="font-light text-xl">
+                    Question
+                </label>
+                {QuestionStore.data?.title}
+            </div>
+            <div className="flex items-start flex-col px-4">
+                <label
+                    htmlFor="description"
+                    className="font-light text-xl">
+                    Description
+                </label>
+                {QuestionStore.data?.description}
+            </div>
         </div>
         <form onSubmit={onSubmit} className="flex gap-4 flex-col border-none">
             <div className="flex items-start flex-col px-4">

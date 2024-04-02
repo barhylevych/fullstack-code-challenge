@@ -33,7 +33,7 @@ const Questions: FC = () => {
         QuestionsStore.fetch(import.meta.env.APPLICATION_BACKEND_URL + '/questions')
     }
 
-    return <main className="w-full h-full p-5">
+    return <main className="w-full h-full p-5 bg-[#252525]">
         <header className="pb-10">
             <Navigation/>
         </header>
